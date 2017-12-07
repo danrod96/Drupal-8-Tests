@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies: { }
+id: contactus
+label: 'Contact Us'
+recipients:
+  - danrod@esinergia.co
+reply: ''
+weight: 0
+message: 'Message sent!'

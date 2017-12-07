@@ -1,0 +1,5 @@
+name: Install Test Module
+type: module
+description: Module for testing the hook_install function
+package: Custom
+core: 8.x

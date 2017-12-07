@@ -1,0 +1,5 @@
+name: Test Update Module
+type: module
+description: Module for testing the update functionality
+package: Custom
+core: 8.x

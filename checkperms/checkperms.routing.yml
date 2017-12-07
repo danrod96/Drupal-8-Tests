@@ -1,0 +1,7 @@
+checkperms.myperm:
+  path: /myperm
+  defaults:
+    _controller: '\Drupal\checkperms\Controller\MyPermController::customPermPage'
+    _title: 'My Custom Perm Page!'
+  requirements:
+    _permission: 'view checkperms pages'

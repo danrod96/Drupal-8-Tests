@@ -1,0 +1,5 @@
+name: My Module
+type: module
+description: Sample module from the Drupal 8 Cookbook!
+package: Custom
+core: 8.x

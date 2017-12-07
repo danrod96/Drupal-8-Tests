@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @file
+ * Contains install and update functions for Installtest.
+ */
+
+/**
+ * Implements hook_install()
+ */
+function installtest_install(){
+	//set the site name
+	\Drupal::configFactory()
+		->getEditable('system.site')
+		->set('name', 'Drupal 8 Cookbook Site')
+		->save();
+}
+
