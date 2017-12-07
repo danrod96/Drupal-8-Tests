@@ -1,0 +1,42 @@
+<?php
+	/**
+	 * @file
+	 *
+	 * Custom module that alters forms
+	 */
+
+	/**
+	 * Implements hook_form_FORM_ID_alter()
+	 */
+	function formalter_form_system_site_information_settings_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state){
+		$form['site_phone'] = array(
+			'#type' => 'tel',
+			'#title' => t('Site phone'),
+			'#default_value' => Drupal::config('system.site')->get('phone'),
+		);
+
+		$validators = $form_state->getValidateHandlers();
+		$validators[] = 'formalter_site_information_phone_validate';
+		$form_state->setValidateHandlers($validators);
+
+		$form['#submit'][] = 'formalter_site_information_phone_submit';
+	}
+
+	/**
+	 * Validation function
+	 */
+	function formalter_site_information_phone_validate(array &$form, FormStateInterface $form_state){
+		dpm($form);
+	}
+
+	/**
+	 * Form callback to save site_phone
+	 * @param array $form
+	 * @param \Drupal\Core\Form\FormStateInterface $form_state
+	 */
+	function formalter_site_information_phone_submit(&$form, \Drupal\Core\Form\FormStateInterface $form_state){
+		//We load the current configuration factory to receive the configuration that can be edited
+		$config = Drupal::configFactory()->getEditable('system.site');
+
+		$config->set('phone', $form_state->getValue('site_phone'))->save();
+	}

@@ -7,11 +7,19 @@
 
 	namespace Drupal\drupalform\Form;
 
-	use Drupal\Core\Form\FormBase;
+	use Drupal\Core\Form\ConfigFormBase;
 
 	use Drupal\Core\Form\FormStateInterface;
 
-	class ExampleForm extends FormBase {
+	class ExampleForm extends ConfigFormBase {
+		/**
+		 * {@inheritdoc}
+		 */
+		protected function getEditableConfigNames(){
+			//This function defines the configuration names, which will be editable by the form
+			return array('drupalform.company');
+		}
+
 		/**
 		 * {@inheritdoc}
 		 */
@@ -23,10 +31,17 @@
 		 * {@inheritdoc}
 		 */
 		public function buildForm(array $form, FormStateInterface $form_state){
+
+			$form_state->setValidateHandlers(
+				array(
+					'::validateForm',
+				)
+			);
+
 			$form['company_name'] = array(
 				'#type' => 'textfield',
 				'#title' => $this->t('Company name'),
-				'#default_value' => $this->t('New value here'),
+				'#default_value' => $this->config('drupalform.company')->get('name'),
 			);
 
 			$form['phone'] = array(
@@ -64,25 +79,36 @@
 				'#autocomplete_route_name' => FALSE,
 			);
 
-			$form['submit'] = array(
-				'#type' => 'submit',
-				'#value' => $this->t('Save'),
+			$form['range'] = array(
+				'#type' => 'range',
+				'#title' => t('Range'),
+				'#min' => 0,
+				'#max' => 100,
+				'#step' => 1,
 			);
 
-			return $form;
+			return parent::buildForm($form, $form_state);
 		}
 
 		/**
 		 * {@inheritdoc}
 		 */
 		public function validateForm(array &$form, FormStateInterface $form_state){
-			//validate 
+			if (!$form_state->isValueEmpty('company_name')){
+				//value is set, verify
+				if (strlen($form_state->getValue('company_name')) <= 5){
+					//validation error
+					$form_state->setErrorByName('company_name', t('Company name is less than 5 chars'));
+				}
+			}
 		}
 
 		/**
 		 * {@inheritdoc}
 		 */
 		public function submitForm(array &$form, FormStateInterface $form_state){
-			//submission
+			parent::submitForm($form, $form_state);
+
+			$this->config('drupalform.company')->set('name', $form_state->getValue('company_name'));
 		}
 	}

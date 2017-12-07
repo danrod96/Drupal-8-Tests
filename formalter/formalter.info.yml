@@ -1,0 +1,5 @@
+name: Drupal form alter
+description: Using form alter functionalities
+type: module
+package: Custom
+core: 8.x
