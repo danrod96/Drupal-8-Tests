@@ -1,0 +1,16 @@
+<?php
+	/**
+	 * @file
+	 *
+	 * Custom module for playing with blocks
+	 */
+
+	/**
+	 * Implements hook_block_view_alter
+	 */
+	function myblock_block_view_alter(array &$build, \Drupal\Core\Block\BlockPluginInterface $block){
+	  //dpm($build);
+	  /* if (isset($build['#contextual_links'])) {
+	    unset($build['#contextual_links']);
+	  } */
+	}
